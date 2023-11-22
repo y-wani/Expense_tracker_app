@@ -40,6 +40,18 @@ connection.connect((err) => {
       });
   });
 
+
+  app.get('/api/data', (req, res) => {
+    const retrievalQuery = "SELECT * FROM expense";
+
+    connection.query(retrievalQuery, (err, results) => {
+      if(err) {
+        console.log("Error retrieving data from MySQL:", err);
+        return res.status(500).json({ error: "Unable to retrieve data from the database" });
+      }
+      res.json({expense: results});
+    })
+  })
   
   
   
@@ -48,7 +60,7 @@ connection.connect((err) => {
 app.get("/api", (req, res) => {
     res.json({"users": ["Yash", "Priyanka", "Jack", "John"]})
 }) 
-
+ 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
   }); 
